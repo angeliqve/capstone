@@ -11,7 +11,7 @@ exports.findUserById = async (id: number) => {
   return await userRepository.findUserById(id);
 };
 
-exports.addUser = async (data: Partial<User>) => {
+exports.createUser = async (data: Partial<User>) => {
   if (data.files && data.files.length > 0) {
     const avatar = data.files.filter((file: any) => file.fieldname === 'avatar');
     const avatarPath = await filesystem.upload(avatar[0], 'users');

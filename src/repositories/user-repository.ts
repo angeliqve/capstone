@@ -1,21 +1,21 @@
 import { User } from '../models/user-model';
 
-// get all users
+exports.createUser = async (input: Partial<User>): Promise<User> => {
+  return await User.query().insert(input);
+};
+
 exports.getAllUsers = async (): Promise<User[]> => {
   return await User.query();
 };
 
-// find by id
-exports.findById = async (id: number): Promise<User | undefined> => {
+exports.findUserById = async (id: number): Promise<User | undefined> => {
   return await User.query().findById(id);
 };
 
-// update
-exports.updateById = async (id: number, data: Partial<User>) => {
+exports.updateUser = async (id: number, data: Partial<User>) => {
   return await User.query().patchAndFetchById(id, data);
 };
 
-// delete
-exports.deleteById = async (id: number) => {
+exports.deleteUser = async (id: number) => {
   return await User.query().deleteById(id);
 };

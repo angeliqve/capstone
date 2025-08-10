@@ -15,9 +15,8 @@ exports.create = async (req: Request, res: Response) => {
         message: 'Name, email, dan password wajib diisi!',
       });
     }
-
-    // buat user lewat service
-    const newUser = await userService.addUser(input);
+    
+    const newUser = await userService.createUser(input);
 
     return res.status(201).json({
       statusCode: 201,
