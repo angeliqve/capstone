@@ -17,7 +17,7 @@ exports.create = async (req: Request, res: Response) => {
     }
 
     // buat user lewat service
-    const newUser = await userService.createUser(input);
+    const newUser = await userService.addUser(input);
 
     return res.status(201).json({
       statusCode: 201,
