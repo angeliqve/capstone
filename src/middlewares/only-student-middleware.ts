@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '../types/authenticated-request-type';
 
-const onlyAdminMiddleware = (
+const onlyStudentMiddleware = (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
@@ -23,4 +23,4 @@ const onlyAdminMiddleware = (
   }
 };
 
-module.exports = onlyAdminMiddleware;
+module.exports = onlyStudentMiddleware;

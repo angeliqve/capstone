@@ -6,7 +6,11 @@ const onlyStudentMiddleware = require('../middlewares/only-student-middleware');
 const userController = require('../controllers/user-controller');
 
 // GET /api/users
-router.get('/', userController.getAllUsers);
+router.get(
+  '/', 
+  authenticationMiddleware,
+  onlyAdminMiddleware,
+  userController.getAllUsers);
 
 // GET /api/users/students
 router.get(
