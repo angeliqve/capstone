@@ -95,7 +95,7 @@ exports.updateUserById = async (req: Request, res: Response) => {
   input.files = files;
 
   try {
-    const user = await userService.findUserById(userId);
+    const user = await userService.getUserById(userId);
     if (!user) {
       return res.status(404).json({
         statusCode: 404,
@@ -124,7 +124,7 @@ exports.deleteById = async (req: AuthenticatedRequest, res: Response) => {
 
   try {
     // cek apakah user ada
-    const user = await userService.findUserById(userId); 
+    const user = await userService.getUserById(userId); 
     if (!user) {
       return res.status(404).json({
         statusCode: 404,
