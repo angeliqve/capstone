@@ -6,7 +6,7 @@ const userService = require('../services/user-service');
 // mendapatkan list users
 exports.index = async (req: Request, res: Response) => {
   try {
-    const userData = userService.getUsers();
+    const userData = await userService.getAllUsers(); 
 
     if (!userData || userData.length === 0) {
       return res.status(404).json({
@@ -31,15 +31,12 @@ exports.index = async (req: Request, res: Response) => {
 
 // update user
 exports.update = async (req: AuthenticatedRequest, res: Response) => {
-  // cek apakah role = student
-  // alur proses utama untuk update khusus endpoint. mahastudent
-
   const userId = req.user.id;
   const input = req.body;
 
   try {
     // cek apakah user ada
-    const user = userService.findUserById(userId);
+    const user = await userService.findUserById(userId); 
     if (!user) {
       return res.status(404).json({
         statusCode: 404,
@@ -48,7 +45,7 @@ exports.update = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     // update data user
-    const updatedUser = userService.updateUserById(userId, input);
+    const updatedUser = await userService.updateUser(user, input); 
 
     return res.status(200).json({
       statusCode: 200,
@@ -66,11 +63,11 @@ exports.update = async (req: AuthenticatedRequest, res: Response) => {
 
 // hapus user berdasarkan id nya
 exports.deleteById = async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.params.id;
+  const userId = Number(req.params.id); 
 
   try {
     // cek apakah user ada
-    const user = userService.findUserById(userId);
+    const user = await userService.findUserById(userId); 
     if (!user) {
       return res.status(404).json({
         statusCode: 404,
@@ -79,8 +76,7 @@ exports.deleteById = async (req: AuthenticatedRequest, res: Response) => {
     }
 
     // hapus user
-    const deletedUser = userService.deleteUserById(userId);
-
+    const deletedUser = await userService.deleteUser(user); 
     return res.status(200).json({
       statusCode: 200,
       message: 'Berhasil hapus user!',

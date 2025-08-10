@@ -1,9 +1,21 @@
 import { User } from '../models/user-model';
 
-exports.findByEmail = async (email: string): Promise<User | undefined> => {
-  return User.query().findOne({ email });
+// get all users
+exports.getAllUsers = async (): Promise<User[]> => {
+  return await User.query();
 };
 
-exports.createUser = async (userData: Partial<User>): Promise<User> => {
-  return User.query().insert(userData);
+// find by id
+exports.findById = async (id: number): Promise<User | undefined> => {
+  return await User.query().findById(id);
+};
+
+// update
+exports.updateById = async (id: number, data: Partial<User>) => {
+  return await User.query().patchAndFetchById(id, data);
+};
+
+// delete
+exports.deleteById = async (id: number) => {
+  return await User.query().deleteById(id);
 };
