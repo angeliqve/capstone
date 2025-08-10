@@ -16,6 +16,9 @@ router.get(
   userController.index,
 );
 
+// POST /api/users
+router.post('/', authenticationMiddleware, onlyAdminMiddleware, userController.create);
+
 // PATCH /api/users
 router.patch('/', authenticationMiddleware, userController.update);
 

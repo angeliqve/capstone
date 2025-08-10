@@ -3,6 +3,36 @@ import { AuthenticatedRequest } from '../types/authenticated-request-type';
 
 const userService = require('../services/user-service');
 
+// create user
+exports.create = async (req: Request, res: Response) => {
+  const input = req.body;
+
+  try {
+    // validasi sederhana
+    if (!input.name || !input.email || !input.password) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'Name, email, dan password wajib diisi!',
+      });
+    }
+
+    // buat user lewat service
+    const newUser = await userService.createUser(input);
+
+    return res.status(201).json({
+      statusCode: 201,
+      message: 'Berhasil membuat user!',
+      data: newUser,
+    });
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: 'Error internal server!',
+    });
+  }
+};
+
 // mendapatkan list users
 exports.index = async (req: Request, res: Response) => {
   try {
