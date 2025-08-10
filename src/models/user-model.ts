@@ -9,6 +9,7 @@ export class User extends Model {
   email!: string;
   password!: string;
   role!: string;
+  avatar!: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;

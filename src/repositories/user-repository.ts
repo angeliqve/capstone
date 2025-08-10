@@ -16,7 +16,7 @@ exports.findByEmail = async (email: string): Promise<User | undefined> => {
   return await User.query().findOne({ email });
 };
 
-exports.updateUser = async (id: number, data: Partial<User>) => {
+exports.updateUser = async (id: number, data: Partial<User>): Promise<User | undefined> => {
   return await User.query().patchAndFetchById(id, data);
 };
 

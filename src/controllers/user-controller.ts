@@ -6,6 +6,8 @@ const userService = require('../services/user-service');
 // create user
 exports.create = async (req: Request, res: Response) => {
   const input = req.body;
+  const files: any = req.files;
+  input.files = files;
 
   try {
     // validasi sederhana
@@ -62,6 +64,8 @@ exports.index = async (req: Request, res: Response) => {
 exports.update = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
   const input = req.body;
+  const files: any = req.files;
+  input.files = files;
 
   try {
     const user = await userService.findUserById(userId);
