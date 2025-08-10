@@ -7,8 +7,8 @@ exports.getAllUsers = async (): Promise<User[]> => {
   return await userRepository.getAllUsers();
 };
 
-exports.findUserById = async (id: number) => {
-  return await userRepository.findUserById(id);
+exports.getUserById = async (id: number) => {
+  return await userRepository.getUserById(id);
 };
 
 exports.createUser = async (data: Partial<User>) => {

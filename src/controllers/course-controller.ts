@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 const courseService = require('../services/course-service');
 
 // mendapatkan list kursus
-exports.index = async (req: Request, res: Response) => {
+exports.getAllCourses = async (req: Request, res: Response) => {
   try {
     const courses = await courseService.getAllCourses();
 
@@ -24,7 +24,7 @@ exports.index = async (req: Request, res: Response) => {
 }
 
 // mendapatkan kursus berdasarkan slug
-exports.show = async (req: Request, res: Response) => {
+exports.getCourseBySlug = async (req: Request, res: Response) => {
   const { slug } = req.params;
 
   try {
@@ -53,10 +53,18 @@ exports.show = async (req: Request, res: Response) => {
 }
 
 // menambahkan kursus baru
-exports.create = async (req: Request, res: Response) => {
+exports.createCourse = async (req: Request, res: Response) => {
   const data = req.body;
   const files: any = req.files;
   data.files = files;
+
+  // validasi sederhana
+  if (!data.title || !data.slug || !data.description) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: 'Title, slug, dan description wajib diisi!',
+    });
+  }
 
   try {
     const newCourse = await courseService.addCourse(data);
@@ -76,7 +84,7 @@ exports.create = async (req: Request, res: Response) => {
 };
 
 // mengubah kursus
-exports.update = async (req: Request, res: Response) => {
+exports.updateCourseBySlug = async (req: Request, res: Response) => {
   const { slug } = req.params;
   const data = req.body;
   const files: any = req.files;
@@ -93,8 +101,8 @@ exports.update = async (req: Request, res: Response) => {
 
     const updatedCourse = await courseService.updateCourse(existingCourse, data);
 
-    return res.status(201).json({
-      statusCode: 201,
+    return res.status(200).json({
+      statusCode: 200,
       message: 'Berhasil mengubah data kursus!',
       data: updatedCourse,
     });
@@ -109,7 +117,7 @@ exports.update = async (req: Request, res: Response) => {
 };
 
 // menghapus kursus
-exports.destroy = async (req: Request, res: Response) => {
+exports.deleteCourseBySlug = async (req: Request, res: Response) => {
   const { slug } = req.params;
 
   try {
@@ -136,30 +144,3 @@ exports.destroy = async (req: Request, res: Response) => {
     });
   }
 };
-
-
-// // mendapatkan list kursus yang diikuti pengguna
-// exports.enrolledCourses = async (req: AuthenticatedRequest, res: Response) => {
-//   try {
-//     const enrolledCourses = courseService.getEnrolledCourse();
-
-//     if (!enrolledCourses || enrolledCourses.length === 0) {
-//       return res.status(404).json({
-//         statusCode: 404,
-//         message: 'Data kursus yang diikuti kosong!',
-//       });
-//     }
-
-//     return res.status(200).json({
-//       statusCode: 200,
-//       message: 'Sukses mendapatkan kursus yang diikuti!',
-//       data: enrolledCourses,
-//     });
-//   } catch (error: any) {
-//     console.error(error);
-//     return res.status(500).json({
-//       statusCode: 500,
-//       message: 'Error internal server!',
-//     });
-//   }
-// };

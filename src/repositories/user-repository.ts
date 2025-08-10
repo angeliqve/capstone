@@ -8,7 +8,7 @@ exports.getAllUsers = async (): Promise<User[]> => {
   return await User.query();
 };
 
-exports.findUserById = async (id: number): Promise<User | undefined> => {
+exports.getUserById = async (id: number): Promise<User | undefined> => {
   return await User.query().findById(id);
 };
 

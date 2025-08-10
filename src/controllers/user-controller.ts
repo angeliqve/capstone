@@ -4,19 +4,20 @@ import { AuthenticatedRequest } from '../types/authenticated-request-type';
 const userService = require('../services/user-service');
 
 // create user
-exports.create = async (req: Request, res: Response) => {
+exports.createUser = async (req: Request, res: Response) => {
   const input = req.body;
   const files: any = req.files;
   input.files = files;
-
+  
+  // validasi sederhana
+  if (!input.name || !input.email || !input.password) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: 'Name, email, dan password wajib diisi!',
+    });
+  }
+  
   try {
-    // validasi sederhana
-    if (!input.name || !input.email || !input.password) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: 'Name, email, dan password wajib diisi!',
-      });
-    }
 
     const newUser = await userService.createUser(input);
 
@@ -35,7 +36,7 @@ exports.create = async (req: Request, res: Response) => {
 };
 
 // mendapatkan list users
-exports.index = async (req: Request, res: Response) => {
+exports.getAllUsers = async (req: Request, res: Response) => {
   try {
     const userData = await userService.getAllUsers(); 
 
@@ -60,8 +61,34 @@ exports.index = async (req: Request, res: Response) => {
   }
 };
 
+exports.getUserById = async (req: Request, res: Response) => {
+  const userId = Number(req.params.id);
+
+  try {
+    const user = await userService.getUserById(userId);
+    if (!user) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'User tidak ditemukan',
+      });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'Berhasil mendapatkan data user',
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: 'Error internal server',
+    });
+  }
+};
+
 // update user berdasarkan id
-exports.update = async (req: Request, res: Response) => {
+exports.updateUserById = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
   const input = req.body;
   const files: any = req.files;

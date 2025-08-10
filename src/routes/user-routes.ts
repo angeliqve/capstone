@@ -6,21 +6,38 @@ const onlyStudentMiddleware = require('../middlewares/only-student-middleware');
 const userController = require('../controllers/user-controller');
 
 // GET /api/users
-router.get('/', userController.index);
+router.get('/', userController.getAllUsers);
 
 // GET /api/users/students
 router.get(
   '/students',
   authenticationMiddleware,
-  // onlyStudentMiddleware,
-  userController.index,
+  onlyAdminMiddleware,
+  userController.getAllUsers,
+);
+
+router.get(
+  '/:id', 
+  authenticationMiddleware, 
+  onlyAdminMiddleware, 
+  userController.getUserById
 );
 
 // POST /api/users
-router.post('/', authenticationMiddleware, onlyAdminMiddleware, userController.create);
+router.post(
+  '/', 
+  authenticationMiddleware, 
+  onlyAdminMiddleware, 
+  userController.createUser
+);
 
 // PATCH /api/users
-router.patch('/:id', authenticationMiddleware, userController.update);
+router.patch(
+  '/:id', 
+  authenticationMiddleware, 
+  onlyAdminMiddleware, 
+  userController.updateUserById
+);
 
 // DELETE /api/users/:id -> hanya boleh oleh ADMIN
 router.delete(
