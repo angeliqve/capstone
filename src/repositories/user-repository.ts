@@ -12,6 +12,10 @@ exports.findUserById = async (id: number): Promise<User | undefined> => {
   return await User.query().findById(id);
 };
 
+exports.findByEmail = async (email: string): Promise<User | undefined> => {
+  return await User.query().findOne({ email });
+};
+
 exports.updateUser = async (id: number, data: Partial<User>) => {
   return await User.query().patchAndFetchById(id, data);
 };
