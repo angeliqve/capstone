@@ -15,7 +15,7 @@ exports.create = async (req: Request, res: Response) => {
         message: 'Name, email, dan password wajib diisi!',
       });
     }
-    
+
     const newUser = await userService.createUser(input);
 
     return res.status(201).json({
@@ -58,14 +58,13 @@ exports.index = async (req: Request, res: Response) => {
   }
 };
 
-// update user
-exports.update = async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user.id;
+// update user berdasarkan id
+exports.update = async (req: Request, res: Response) => {
+  const userId = Number(req.params.id);
   const input = req.body;
 
   try {
-    // cek apakah user ada
-    const user = await userService.findUserById(userId); 
+    const user = await userService.findUserById(userId);
     if (!user) {
       return res.status(404).json({
         statusCode: 404,
@@ -73,9 +72,7 @@ exports.update = async (req: AuthenticatedRequest, res: Response) => {
       });
     }
 
-    // update data user
-    const updatedUser = await userService.updateUser(user, input); 
-
+    const updatedUser = await userService.updateUser(user, input);
     return res.status(200).json({
       statusCode: 200,
       message: 'Berhasil update data user!',

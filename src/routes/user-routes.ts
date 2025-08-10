@@ -20,7 +20,7 @@ router.get(
 router.post('/', authenticationMiddleware, onlyAdminMiddleware, userController.create);
 
 // PATCH /api/users
-router.patch('/', authenticationMiddleware, userController.update);
+router.patch('/:id', authenticationMiddleware, userController.update);
 
 // DELETE /api/users/:id -> hanya boleh oleh ADMIN
 router.delete(
